@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 export const LogoIcon = (props) => (
 	<svg fill="currentColor" viewBox="0 -2.5 29 29" {...props}>
@@ -10,5 +11,13 @@ export const LogoIcon = (props) => (
 );
 
 export const Logo = (props) => (
-	<Image src="/logo.webp" height={100} width={100} alt="Logo" />
+	<Image 
+        src="/vslogo.png" 
+        height={100} 
+        width={300} 
+        alt="Logo" 
+        priority
+        className={cn("h-full w-auto object-contain", props.className)} 
+        {...props} 
+    />
 );

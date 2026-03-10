@@ -1,66 +1,138 @@
+"use client";
 import { cn } from "@/lib/utils";
 import React from "react";
 import { Portal, PortalBackdrop } from "@/components/ui/portal";
 import { Button } from "@/components/ui/button";
 import { navLinks } from "@/components/header";
-import { XIcon, MenuIcon, Search } from "lucide-react";
+import { XIcon, MenuIcon, Search, ShoppingBag, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { SearchComponent } from "@/components/search-component";
+import { motion, AnimatePresence } from "motion/react";
 
 export function MobileNav() {
 	const [open, setOpen] = React.useState(false);
+    const [showSearch, setShowSearch] = React.useState(false);
 
 	return (
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-2">
+            <Button
+                aria-label="Toggle search"
+                onClick={() => {
+                    setShowSearch(!showSearch);
+                    if (open) setOpen(false);
+                }}
+                size="icon"
+                variant="ghost"
+                className={cn("rounded-full", showSearch && "bg-primary/10 text-primary")}
+            >
+                <Search className="size-5" />
+            </Button>
+
             <Button
                 aria-controls="mobile-menu"
                 aria-expanded={open}
                 aria-label="Toggle menu"
-                className="md:hidden"
-                onClick={() => setOpen(!open)}
+                onClick={() => {
+                    setOpen(!open);
+                    if (showSearch) setShowSearch(false);
+                }}
                 size="icon"
-                variant="outline">
+                variant="outline"
+                className="rounded-xl border-border/40 shadow-sm"
+            >
 				{open ? (
-					<XIcon className="size-4.5" />
+					<XIcon className="size-5" />
 				) : (
-					<MenuIcon className="size-4.5" />
+					<MenuIcon className="size-5" />
 				)}
 			</Button>
-            {open && (
-				<Portal className="top-14" id="mobile-menu">
-					<PortalBackdrop />
-					<div
-                        className={cn(
-                            "data-[slot=open]:zoom-in-97 ease-out data-[slot=open]:animate-in",
-                            "size-full p-4 overflow-y-auto"
-                        )}
-                        data-slot={open ? "open" : "closed"}>
-						<div className="grid gap-y-2">
-							{navLinks.map((link) => (
-                                <React.Fragment key={link.label}>
-                                    <Button asChild className="justify-start" variant="ghost">
-                                        <Link href={link.href}>{link.label}</Link>
-                                    </Button>
-                                    {link.subLinks && link.subLinks.map(sub => (
-                                        <Button asChild className="justify-start pl-8 text-muted-foreground" key={sub.label} variant="ghost" size="sm">
-                                            <Link href={sub.href}>{sub.label}</Link>
-                                        </Button>
-                                    ))}
-                                </React.Fragment>
-							))}
-						</div>
-						<div className="mt-8 flex flex-col gap-2">
-							<div className="relative flex items-center">
-								<Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-								<input
-									type="search"
-									placeholder="Search products..."
-									className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 pl-9 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-								/>
-							</div>
-						</div>
-					</div>
-				</Portal>
-			)}
+
+            <AnimatePresence>
+                {showSearch && (
+                    <Portal className="top-14" id="mobile-search">
+                        <PortalBackdrop onClick={() => setShowSearch(false)} />
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            className="bg-background/95 backdrop-blur-md p-4 border-b border-border shadow-2xl relative z-50"
+                        >
+                            <SearchComponent isMobile onClose={() => setShowSearch(false)} />
+                        </motion.div>
+                    </Portal>
+                )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+                {open && (
+                    <Portal className="top-0 fixed inset-0 z-[60]" id="mobile-menu">
+                        <PortalBackdrop onClick={() => setOpen(false)} />
+                        <motion.div
+                            initial={{ x: "100%" }}
+                            animate={{ x: 0 }}
+                            exit={{ x: "100%" }}
+                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                            className="fixed inset-y-0 right-0 w-[85%] bg-background shadow-2xl z-[70] flex flex-col p-6 border-l border-border/50"
+                        >
+                            <div className="flex items-center justify-between mb-8">
+                                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Menu</span>
+                                <Button variant="ghost" size="icon" onClick={() => setOpen(false)} className="rounded-full">
+                                    <XIcon className="size-5" />
+                                </Button>
+                            </div>
+
+                            <div className="flex flex-col gap-6 overflow-y-auto pb-8">
+                                {navLinks.map((link) => (
+                                    <div key={link.label} className="flex flex-col gap-3">
+                                        <Link 
+                                            href={link.href} 
+                                            onClick={() => setOpen(false)}
+                                            className="text-2xl font-black uppercase italic tracking-tighter hover:text-primary transition-colors flex items-center justify-between group"
+                                        >
+                                            {link.label}
+                                            <ArrowRight className="size-5 text-primary opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                                        </Link>
+                                        
+                                        {link.subLinks && (
+                                            <div className="grid grid-cols-2 gap-x-4 gap-y-2 border-l-2 border-primary/10 ml-1 pl-4">
+                                                {link.subLinks.map(sub => (
+                                                    <Link 
+                                                        key={sub.label} 
+                                                        href={sub.href} 
+                                                        onClick={() => setOpen(false)}
+                                                        className="py-1 text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+                                                    >
+                                                        {sub.label}
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="mt-auto pt-8 border-t border-border/50">
+                                <Link 
+                                    href="/categories" 
+                                    onClick={() => setOpen(false)}
+                                    className="flex items-center justify-center gap-3 w-full rounded-2xl h-14 font-black uppercase italic tracking-widest bg-primary text-primary-foreground hover:scale-[0.98] transition-all shadow-lg shadow-primary/20"
+                                >
+                                    <ShoppingBag className="size-5" />
+                                    Shop Now
+                                </Link>
+                                <div className="flex flex-col items-center gap-1 mt-6">
+                                    <p className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.3em]">
+                                        VS ENTERPRISES
+                                    </p>
+                                    <p className="text-[8px] font-bold text-muted-foreground/60 uppercase">
+                                        Premium Quality Guaranteed
+                                    </p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </Portal>
+                )}
+            </AnimatePresence>
         </div>
     );
 }

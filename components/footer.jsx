@@ -77,10 +77,10 @@ export function Footer() {
             <div
                 className="absolute top-0 right-1/2 left-1/2 h-px w-1/3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/20 blur" />
             <div className="grid w-full gap-8 py-6 md:py-8 lg:grid-cols-3 lg:gap-8">
-				<AnimatedContainer className="space-y-4">
-					<Logo className="h-4" />
-					<p className="mt-8 text-muted-foreground text-sm md:mt-0">
-						Beautify your app with efferd.
+				<AnimatedContainer className="space-y-6">
+					<Logo className="h-12 md:h-20 w-auto" />
+					<p className="mt-2 text-muted-foreground text-sm leading-relaxed max-w-[280px]">
+						Leading the way in premium quality and excellence with VS Enterprises.
 					</p>
 				</AnimatedContainer>
 
@@ -111,7 +111,7 @@ export function Footer() {
             <div className="h-px w-full bg-linear-to-r via-border" />
             <div className="flex w-full items-center justify-center py-4">
 				<p className="text-muted-foreground text-sm">
-					&copy; {new Date().getFullYear()} efferd, All rights reserved
+					&copy; {new Date().getFullYear()} VS Enterprises. All rights reserved.
 				</p>
 			</div>
         </footer>
