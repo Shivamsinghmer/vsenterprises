@@ -1,31 +1,28 @@
 "use client";
 import React from "react";
-import { cn } from "@/lib/utils";
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
-import { Truck, FileText, ShoppingBag, PhoneCall, CheckCircle2 } from "lucide-react";
+import { Truck, FileText, ShoppingBag, PhoneCall, ShieldCheck } from "lucide-react";
+
+const items = [
+    { icon: <Truck className="size-3.5" />, text: "Free Shipping on ₹499+" },
+    { icon: <FileText className="size-3.5" />, text: "GST Invoice Available" },
+    { icon: <ShoppingBag className="size-3.5" />, text: "1,50,000+ Orders Delivered" },
+    { icon: <PhoneCall className="size-3.5" />, text: "Toll Free: 1800 209 0998" },
+    { icon: <ShieldCheck className="size-3.5" />, text: "100% Secure Payments" },
+];
 
 export function PromoBanner() {
-    const items = [
-        { icon: <Truck className="size-3" />, text: "Free Shipping on ₹499+" },
-        { icon: <FileText className="size-3" />, text: "GST Invoice Available" },
-        { icon: <ShoppingBag className="size-3" />, text: "1,50,000+ Orders Delivered" },
-        { icon: <PhoneCall className="size-3" />, text: "Toll Free: 1800 209 0998" },
-    ];
-
     return (
-        <div className="w-full bg-primary text-white py-2 relative overflow-hidden hidden md:block">
-            {/* Background Decorative Gradient - Lower Z-Index */}
-            <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/20 to-primary pointer-events-none z-10" />
-            
-            <InfiniteSlider duration={40} className="flex items-center gap-12 relative z-20">
+        <div className="w-full bg-primary py-2 hidden md:block overflow-hidden">
+            <InfiniteSlider duration={50} className="flex items-center gap-12">
                 {[...items, ...items, ...items].map((item, index) => (
-                    <div 
-                        key={index} 
-                        className="flex items-center gap-2 whitespace-nowrap text-[10px] font-black uppercase tracking-widest text-white"
+                    <div
+                        key={index}
+                        className="flex items-center gap-2 whitespace-nowrap text-[11px] font-medium tracking-wide text-primary-foreground/90"
                     >
-                        <CheckCircle2 className="size-3 text-white fill-white" />
-                        <span className="text-white">{item.text}</span>
-                        <div className="ml-10 size-1 rounded-full bg-white" />
+                        <span className="text-primary-foreground/70">{item.icon}</span>
+                        <span>{item.text}</span>
+                        <span className="ml-8 h-3 w-px bg-primary-foreground/20" />
                     </div>
                 ))}
             </InfiniteSlider>
@@ -38,18 +35,19 @@ export function MobilePromoBanner() {
         "Free Shipping on ₹499+",
         "GST Invoice Available",
         "1,50,000+ Orders",
-        "Toll Free: 1800 209 0998"
+        "Toll Free: 1800 209 0998",
+        "100% Secure Payments",
     ];
 
     return (
-        <div className="w-full bg-primary text-white py-1.5 overflow-hidden bg-primary/95 backdrop-blur-sm md:hidden">
-             <InfiniteSlider duration={20} className="flex items-center gap-8">
-                {items.map((text, index) => (
-                    <div 
-                        key={index} 
-                        className="flex items-center gap-2 whitespace-nowrap text-[9px] font-black uppercase tracking-widest"
+        <div className="w-full bg-primary py-1.5 overflow-hidden md:hidden">
+            <InfiniteSlider duration={25} className="flex items-center gap-10">
+                {[...items, ...items].map((text, index) => (
+                    <div
+                        key={index}
+                        className="flex items-center gap-2 whitespace-nowrap text-[10px] font-medium tracking-wide text-primary-foreground/90"
                     >
-                        <CheckCircle2 className="size-2.5 text-white fill-white" />
+                        <span className="size-1 rounded-full bg-primary-foreground/50" />
                         <span>{text}</span>
                     </div>
                 ))}

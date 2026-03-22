@@ -1,142 +1,123 @@
-"use client";;
+"use client";
 import { cn } from "@/lib/utils";
 import { motion, useReducedMotion } from "motion/react";
 import { Logo } from "@/components/logo";
 import { FacebookIcon, InstagramIcon, YoutubeIcon, LinkedinIcon } from "lucide-react";
+import Link from "next/link";
 
 const footerLinks = [
 	{
-		label: "Product",
+		label: "Shop",
 		links: [
-			{ title: "Features", href: "#" },
-			{ title: "Pricing", href: "#" },
-			{ title: "Testimonials", href: "#" },
-			{ title: "Integration", href: "#" },
+			{ title: "New Arrivals", href: "/shop/new-arrivals" },
+			{ title: "Best Sellers", href: "/shop/best-sellers" },
+			{ title: "Electronics", href: "/categories/electronics" },
+			{ title: "On Sale", href: "/shop/sale" },
 		],
 	},
 	{
 		label: "Company",
 		links: [
+			{ title: "About Us", href: "/about" },
+			{ title: "Blogs", href: "/blogs" },
+			{ title: "Contact", href: "/contact" },
 			{ title: "FAQs", href: "#" },
-			{ title: "About Us", href: "#" },
+		],
+	},
+	{
+		label: "Legal",
+		links: [
 			{ title: "Privacy Policy", href: "#" },
-			{ title: "T&S", href: "#" },
-		],
-	},
-	{
-		label: "Resources",
-		links: [
-			{ title: "Blog", href: "#" },
-			{ title: "Changelog", href: "#" },
-			{ title: "Brand", href: "#" },
-			{ title: "Help", href: "#" },
-		],
-	},
-	{
-		label: "Social Links",
-		links: [
-			{
-				title: "Facebook",
-				href: "#",
-				icon: (
-					<FacebookIcon />
-				),
-			},
-			{
-				title: "Instagram",
-				href: "#",
-				icon: (
-					<InstagramIcon />
-				),
-			},
-			{
-				title: "Youtube",
-				href: "#",
-				icon: (
-					<YoutubeIcon />
-				),
-			},
-			{
-				title: "LinkedIn",
-				href: "#",
-				icon: (
-					<LinkedinIcon />
-				),
-			},
+			{ title: "Terms & Conditions", href: "#" },
+			{ title: "Shipping Policy", href: "#" },
+			{ title: "Return Policy", href: "#" },
 		],
 	},
 ];
 
+const socialLinks = [
+	{ icon: <FacebookIcon className="size-4" />, href: "#", label: "Facebook" },
+	{ icon: <InstagramIcon className="size-4" />, href: "#", label: "Instagram" },
+	{ icon: <YoutubeIcon className="size-4" />, href: "#", label: "Youtube" },
+	{ icon: <LinkedinIcon className="size-4" />, href: "#", label: "LinkedIn" },
+];
+
 export function Footer() {
 	return (
-        <footer
-            className={cn(
-                "relative mx-auto flex w-full max-w-5xl flex-col items-center justify-center rounded-t-4xl border-t px-6 md:rounded-t-6xl md:px-8",
-                "dark:bg-[radial-gradient(35%_128px_at_50%_0%,--theme(--color-foreground/.1),transparent)]"
-            )}>
-            <div
-                className="absolute top-0 right-1/2 left-1/2 h-px w-1/3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/20 blur" />
-            <div className="grid w-full gap-8 py-6 md:py-8 lg:grid-cols-3 lg:gap-8">
-				<AnimatedContainer className="space-y-6">
-					<Logo className="h-12 md:h-20 w-auto" />
-					<p className="mt-2 text-muted-foreground text-sm leading-relaxed max-w-[280px]">
-						Leading the way in premium quality and excellence with VS Enterprises.
-					</p>
-				</AnimatedContainer>
+		<footer className="w-full border-t border-border/50 bg-white mt-8">
+			<div className="mx-auto max-w-7xl px-4 md:px-8 py-16">
+				<div className="grid grid-cols-1 gap-12 lg:grid-cols-4">
+					{/* Brand Column */}
+					<AnimatedContainer className="space-y-5 lg:col-span-1">
+						<Logo className="h-10 md:h-12 w-auto" />
+						<p className="text-sm text-muted-foreground leading-relaxed max-w-[260px]">
+							Premium quality products delivered to your doorstep. Leading the way in excellence since day one.
+						</p>
+						<div className="flex items-center gap-3">
+							{socialLinks.map((s) => (
+								<a
+									key={s.label}
+									href={s.href}
+									aria-label={s.label}
+									className="flex size-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-all duration-200 hover:border-primary hover:bg-primary/5 hover:text-primary"
+								>
+									{s.icon}
+								</a>
+							))}
+						</div>
+					</AnimatedContainer>
 
-				<div
-                    className="mt-10 grid grid-cols-2 gap-8 md:grid-cols-4 lg:col-span-2 lg:mt-0">
-					{footerLinks.map((section, index) => (
-						<AnimatedContainer delay={0.1 + index * 0.1} key={section.label}>
-							<div className="mb-10 md:mb-0">
-								<h3 className="text-xs">{section.label}</h3>
-								<ul className="mt-4 space-y-2 text-muted-foreground text-sm">
+					{/* Links Grid */}
+					<div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:col-span-3">
+						{footerLinks.map((section, index) => (
+							<AnimatedContainer delay={0.1 + index * 0.08} key={section.label}>
+								<h3 className="mb-4 text-sm font-semibold text-foreground">{section.label}</h3>
+								<ul className="space-y-3">
 									{section.links.map((link) => (
 										<li key={link.title}>
-											<a
-                                                className="inline-flex items-center duration-250 hover:text-foreground [&_svg]:me-1 [&_svg]:size-4"
-                                                href={link.href}
-                                                key={`${section.label}-${link.title}`}>
-												{link.icon}
+											<Link
+												href={link.href}
+												className="text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
+											>
 												{link.title}
-											</a>
+											</Link>
 										</li>
 									))}
 								</ul>
-							</div>
-						</AnimatedContainer>
-					))}
+							</AnimatedContainer>
+						))}
+					</div>
+				</div>
+
+				{/* Bottom Bar */}
+				<div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-border/50 pt-8 sm:flex-row">
+					<p className="text-sm text-muted-foreground">
+						© {new Date().getFullYear()} VS Enterprises. All rights reserved.
+					</p>
+					<p className="text-sm text-muted-foreground">
+						Toll Free: <span className="font-medium text-foreground">1800 209 0998</span>
+					</p>
 				</div>
 			</div>
-            <div className="h-px w-full bg-linear-to-r via-border" />
-            <div className="flex w-full items-center justify-center py-4">
-				<p className="text-muted-foreground text-sm">
-					&copy; {new Date().getFullYear()} VS Enterprises. All rights reserved.
-				</p>
-			</div>
-        </footer>
-    );
+		</footer>
+	);
 }
 
-function AnimatedContainer({
-    className,
-    delay = 0.1,
-    children
-}) {
+function AnimatedContainer({ className, delay = 0.1, children }) {
 	const shouldReduceMotion = useReducedMotion();
 
 	if (shouldReduceMotion) {
-		return children;
+		return <div className={className}>{children}</div>;
 	}
 
 	return (
-        <motion.div
-            className={className}
-            initial={{ filter: "blur(4px)", translateY: -8, opacity: 0 }}
-            transition={{ delay, duration: 0.8 }}
-            viewport={{ once: true }}
-            whileInView={{ filter: "blur(0px)", translateY: 0, opacity: 1 }}>
-            {children}
-        </motion.div>
-    );
+		<motion.div
+			className={className}
+			initial={{ opacity: 0, y: 12 }}
+			transition={{ delay, duration: 0.5, ease: "easeOut" }}
+			viewport={{ once: true }}
+			whileInView={{ opacity: 1, y: 0 }}>
+			{children}
+		</motion.div>
+	);
 }

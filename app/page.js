@@ -7,7 +7,7 @@ import { BlogsSection } from "@/components/blogs-section";
 
 export default function Home() {
   return (
-    <main>
+    <main className="min-h-screen">
       <Hero />
       <ProductsSection 
         title="New Arrivals" 
