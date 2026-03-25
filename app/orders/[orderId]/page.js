@@ -57,9 +57,15 @@ export default async function OrderDetailPage({ params }) {
             </div>
           </div>
           
-          <Button asChild variant="outline" className="rounded-full bg-white hover:bg-gray-50 text-sm font-medium shadow-sm">
-             <Link href="#">Download Invoice</Link>
-          </Button>
+          {order.invoicePdf && order.paymentStatus === 'Paid' ? (
+            <Button asChild variant="outline" className="rounded-full bg-white hover:bg-gray-50 text-sm font-medium shadow-sm">
+               <a href={order.invoicePdf} target="_blank" rel="noopener noreferrer">Download Invoice</a>
+            </Button>
+          ) : (
+            <Button disabled variant="outline" className="rounded-full bg-white opacity-50 text-sm font-medium shadow-sm">
+               Download Invoice
+            </Button>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -139,6 +145,9 @@ export default async function OrderDetailPage({ params }) {
                     {order.shippingAddress?.addressLine2 && <p>{order.shippingAddress?.addressLine2}</p>}
                     <p>{order.shippingAddress?.city}, {order.shippingAddress?.state} {order.shippingAddress?.postalCode}</p>
                     <p className="mt-2 text-gray-400">Phone: <span className="text-gray-600">{order.shippingAddress?.phone}</span></p>
+                    {order.shippingAddress?.gstno && (
+                        <p className="mt-1 text-gray-400">GST: <span className="text-gray-900 font-semibold">{order.shippingAddress?.gstno}</span></p>
+                    )}
                 </div>
             </section>
 
@@ -152,14 +161,6 @@ export default async function OrderDetailPage({ params }) {
                     <div className="flex justify-between items-center text-sm font-medium">
                         <span className="text-gray-500">Method</span>
                         <span className="text-gray-900 uppercase">{order.paymentMethod === 'upi' ? 'UPI' : order.paymentMethod}</span>
-                    </div>
-                    <div className="flex justify-between items-center text-sm font-medium">
-                        <span className="text-gray-500">Status</span>
-                        <div className="flex items-center gap-2">
-                           <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold ${order.paymentStatus === 'Paid' ? 'bg-green-50 text-green-700' : 'bg-orange-50 text-orange-700'}`}>
-                               {order.paymentStatus}
-                           </span>
-                        </div>
                     </div>
                     {order.transactionId && (
                         <div className="pt-4 border-t border-gray-100 flex flex-col gap-1">

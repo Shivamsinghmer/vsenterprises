@@ -27,6 +27,7 @@ const Carousel = (props) => {
     transition = "slide",
     autoplayDelay = 3000,
     captions = [],
+    className = "",
   } = props
 
   const progressNode = useRef(null)
@@ -101,7 +102,7 @@ const Carousel = (props) => {
     thumbnails && (thumbPosition === "left" || thumbPosition === "right")
 
   return (
-    <div className={`flex ${isVerticalThumb ? "flex-row gap-3" : "flex-col"}`}>
+    <div className={`flex relative w-full h-full ${isVerticalThumb ? "flex-row gap-3" : "flex-col"} ${className}`}>
       {/* ── Left Thumbnails ── */}
       {thumbnails && thumbPosition === "left" && (
         <ThumbStrip
@@ -112,25 +113,22 @@ const Carousel = (props) => {
           onAutoplayButtonClick={onAutoplayButtonClick}
           direction="vertical" />
       )}
-      <div className="min-w-0 flex-1">
-        <div className="overflow-hidden" ref={emblaRef}>
+      <div className="min-w-0 flex-1 h-full">
+        <div className="overflow-hidden h-full" ref={emblaRef}>
           <div
-            className={`flex touch-pan-y touch-pinch-zoom ${
-              transition === "fade" ? "relative" : "mr-3 ml-auto"
-            }`}>
+            className={`flex h-full touch-pan-y touch-pinch-zoom ${transition === "fade" ? "relative" : "mr-3 ml-auto"
+              }`}>
             {slides.map((slideContent, index) => (
               <div
                 key={index}
                 onClick={() => handleSlideClick(index)}
-                className={` ${
-                  transition === "fade"
-                    ? `absolute inset-0 transition-opacity duration-700 ${
-                        index === selectedIndex
-                          ? "relative opacity-100"
-                          : "absolute opacity-0"
-                      }`
-                    : "flex-[0_0_100%] transform-gpu pl-3"
-                } ${lightbox ? "cursor-zoom-in" : ""} `}>
+                className={` h-full ${transition === "fade"
+                  ? `absolute inset-0 transition-opacity duration-700 ${index === selectedIndex
+                    ? "relative opacity-100"
+                    : "absolute opacity-0"
+                  }`
+                  : "flex-[0_0_100%] transform-gpu pl-3"
+                  } ${lightbox ? "cursor-zoom-in" : ""} `}>
                 {slideContent}
               </div>
             ))}
@@ -179,11 +177,10 @@ const Carousel = (props) => {
                   onClick={() =>
                     onAutoplayButtonClick(() => onDotButtonClick(index))
                   }
-                  className={`border-border h-3 w-3 rounded-full border-2 transition-colors duration-200 ${
-                    index === selectedIndex
-                      ? "bg-foreground"
-                      : "hover:bg-muted bg-transparent"
-                  }`} />
+                  className={`border-border h-3 w-3 rounded-full border-2 transition-colors duration-200 ${index === selectedIndex
+                    ? "bg-foreground"
+                    : "hover:bg-muted bg-transparent"
+                    }`} />
               ))}
             </div>
           )}
@@ -199,9 +196,8 @@ const Carousel = (props) => {
           {/* Progress Bar */}
           {showProgress && autoplayDelay > 0 && (
             <div
-              className={`border-border bg-background relative h-2 w-full justify-center overflow-hidden rounded-sm border-2 transition-opacity duration-300 ease-in-out ${
-                showAutoplayProgress ? "opacity-100" : "opacity-0"
-              }`}>
+              className={`border-border bg-background relative h-2 w-full justify-center overflow-hidden rounded-sm border-2 transition-opacity duration-300 ease-in-out ${showAutoplayProgress ? "opacity-100" : "opacity-0"
+                }`}>
               <div
                 className="bg-foreground absolute top-0 bottom-0 -left-full w-full animate-[autoplay-progress_linear_1] [animation-play-state:running]"
                 ref={progressNode}
@@ -259,26 +255,22 @@ const ThumbStrip = ({
 }) => {
   return (
     <div
-      className={`flex h-full items-center justify-center overflow-hidden ${
-        direction === "vertical" ? "w-20 flex-col" : "mt-3 h-full w-full"
-      }`}
+      className={`flex h-full items-center justify-center overflow-hidden ${direction === "vertical" ? "w-20 flex-col" : "mt-3 h-full w-full"
+        }`}
       ref={emblaRef}>
       <div
-        className={`flex gap-2 ${
-          direction === "vertical" ? "flex-col" : "flex-row"
-        }`}>
+        className={`flex gap-2 ${direction === "vertical" ? "flex-col" : "flex-row"
+          }`}>
         {thumbnails?.map((thumb, index) => (
           <button
             key={index}
             type="button"
             onClick={() => onAutoplayButtonClick(() => onDotButtonClick(index))}
-            className={`flex-shrink-0 overflow-hidden rounded-md border-2 object-cover transition-all duration-200 ${
-              direction === "vertical" ? "h-auto w-16" : "h-12 w-auto"
-            } ${
-              index === selectedIndex
+            className={`flex-shrink-0 overflow-hidden rounded-md border-2 object-cover transition-all duration-200 ${direction === "vertical" ? "h-auto w-16" : "h-12 w-auto"
+              } ${index === selectedIndex
                 ? "scale-105 border opacity-100"
                 : "border opacity-20 hover:opacity-80"
-            }`}>
+              }`}>
             {thumb}
           </button>
         ))}

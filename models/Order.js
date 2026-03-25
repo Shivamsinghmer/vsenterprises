@@ -43,6 +43,9 @@ const orderSchema = new mongoose.Schema({
   },
   transactionId: String,
   paymentProofUrl: String,
+  invoicePdf: String, // URL to invoice
+  invoiceData: Buffer, // Binary PDF data
+  invoiceMimeType: String, // e.g. application/pdf
   shippingAddress: {
     name: String,
     addressLine1: String,
@@ -52,6 +55,7 @@ const orderSchema = new mongoose.Schema({
     postalCode: String,
     country: String,
     phone: String,
+    gstno: String,
   }
 }, {
   timestamps: true,

@@ -26,7 +26,8 @@ export default function CheckoutPage() {
     city: "",
     state: "",
     postalCode: "",
-    country: "India"
+    country: "India",
+    gstno: ""
   });
 
   const [paymentMethod, setPaymentMethod] = useState("upi"); // 'upi' | 'cod'
@@ -150,6 +151,11 @@ export default function CheckoutPage() {
                         <label className="text-sm font-medium">Postal Code</label>
                         <input required type="text" value={address.postalCode} onChange={e => setAddress({...address, postalCode: e.target.value})} className="w-full h-11 px-3 rounded-xl border border-border bg-transparent focus:ring-2 focus:ring-primary/20 outline-none" placeholder="PIN Code" />
                       </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-sm font-medium">GST Number (Optional)</label>
+                      <input type="text" value={address.gstno} onChange={e => setAddress({...address, gstno: e.target.value})} className="w-full h-11 px-3 rounded-xl border border-border bg-transparent focus:ring-2 focus:ring-primary/20 outline-none" placeholder="22AAAAA0000A1Z5" />
                     </div>
 
                     <div className="pt-4">
