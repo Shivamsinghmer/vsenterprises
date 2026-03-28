@@ -124,7 +124,7 @@ export default function CheckoutPage() {
                       </div>
                       <div className="space-y-1.5">
                         <label className="text-sm font-medium">Phone Number</label>
-                        <input required type="tel" value={address.phone} onChange={e => setAddress({...address, phone: e.target.value})} className="w-full h-11 px-3 rounded-xl border border-border bg-transparent focus:ring-2 focus:ring-primary/20 outline-none" placeholder="+91 9876543210" />
+                        <input required type="tel" value={address.phone} onChange={e => setAddress({...address, phone: e.target.value})} className="w-full h-11 px-3 rounded-xl border border-border bg-transparent focus:ring-2 focus:ring-primary/20 outline-none" placeholder="+91 8318005329" />
                       </div>
                     </div>
                     

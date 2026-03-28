@@ -7,7 +7,7 @@ const items = [
     { icon: <Truck className="size-3.5" />, text: "Free Shipping on ₹499+" },
     { icon: <FileText className="size-3.5" />, text: "GST Invoice Available" },
     { icon: <ShoppingBag className="size-3.5" />, text: "1,50,000+ Orders Delivered" },
-    { icon: <PhoneCall className="size-3.5" />, text: "Toll Free: 1800 209 0998" },
+    { icon: <PhoneCall className="size-3.5" />, text: "+91 8318005329" },
     { icon: <ShieldCheck className="size-3.5" />, text: "100% Secure Payments" },
 ];
 
@@ -35,7 +35,7 @@ export function MobilePromoBanner() {
         "Free Shipping on ₹499+",
         "GST Invoice Available",
         "1,50,000+ Orders",
-        "Toll Free: 1800 209 0998",
+        "+91 8318005329",
         "100% Secure Payments",
     ];
 

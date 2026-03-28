@@ -75,7 +75,7 @@ export function Header() {
                 )}>
                     {/* Logo */}
                     <Link className="flex-shrink-0 transition-opacity hover:opacity-80" href="/">
-                        <Logo className="h-10 md:h-12 w-auto" />
+                        <Logo className="h-10 md:h-17 p-1 w-auto" />
                     </Link>
  
                     {/* Desktop Nav Links */}

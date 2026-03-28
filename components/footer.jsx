@@ -2,7 +2,6 @@
 import { cn } from "@/lib/utils";
 import { motion, useReducedMotion } from "motion/react";
 import { Logo } from "@/components/logo";
-import { FacebookIcon, InstagramIcon, YoutubeIcon, LinkedinIcon } from "lucide-react";
 import Link from "next/link";
 
 const footerLinks = [
@@ -35,12 +34,6 @@ const footerLinks = [
 	},
 ];
 
-const socialLinks = [
-	{ icon: <FacebookIcon className="size-4" />, href: "#", label: "Facebook" },
-	{ icon: <InstagramIcon className="size-4" />, href: "#", label: "Instagram" },
-	{ icon: <YoutubeIcon className="size-4" />, href: "#", label: "Youtube" },
-	{ icon: <LinkedinIcon className="size-4" />, href: "#", label: "LinkedIn" },
-];
 
 export function Footer() {
 	return (
@@ -53,18 +46,6 @@ export function Footer() {
 						<p className="text-sm text-muted-foreground leading-relaxed max-w-[260px]">
 							Premium quality products delivered to your doorstep. Leading the way in excellence since day one.
 						</p>
-						<div className="flex items-center gap-3">
-							{socialLinks.map((s) => (
-								<a
-									key={s.label}
-									href={s.href}
-									aria-label={s.label}
-									className="flex size-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-all duration-200 hover:border-primary hover:bg-primary/5 hover:text-primary"
-								>
-									{s.icon}
-								</a>
-							))}
-						</div>
 					</AnimatedContainer>
 
 					{/* Links Grid */}
@@ -95,7 +76,7 @@ export function Footer() {
 						© {new Date().getFullYear()} VS Enterprises. All rights reserved.
 					</p>
 					<p className="text-sm text-muted-foreground">
-						Toll Free: <span className="font-medium text-foreground">1800 209 0998</span>
+						<span className="font-medium text-foreground">+91 8318005329</span>
 					</p>
 				</div>
 			</div>

@@ -201,7 +201,7 @@ export function MobileNav({ navLinks = [] }) {
                                 <div className="mt-10 space-y-4">
                                     <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Quick Contact</p>
                                     <div className="space-y-3">
-                                        <a href="tel:+919876543210" className="flex items-center gap-3 text-sm font-medium text-foreground hover:text-primary transition-colors">
+                                        <a href="tel:+918318005329" className="flex items-center gap-3 text-sm font-medium text-foreground hover:text-primary transition-colors">
                                             <div className="size-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                                                 <Phone className="size-4" />
                                             </div>

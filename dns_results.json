@@ -1,0 +1,27 @@
+{
+  "txt": [
+    [
+      "authSource=admin&replicaSet=atlas-7hv26z-shard-0"
+    ]
+  ],
+  "srv": [
+    {
+      "name": "ac-z5nzrjt-shard-00-00.40wbgct.mongodb.net",
+      "port": 27017,
+      "priority": 0,
+      "weight": 0
+    },
+    {
+      "name": "ac-z5nzrjt-shard-00-01.40wbgct.mongodb.net",
+      "port": 27017,
+      "priority": 0,
+      "weight": 0
+    },
+    {
+      "name": "ac-z5nzrjt-shard-00-02.40wbgct.mongodb.net",
+      "port": 27017,
+      "priority": 0,
+      "weight": 0
+    }
+  ]
+}

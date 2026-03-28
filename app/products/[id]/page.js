@@ -33,8 +33,11 @@ export default function SingleProductPage({ params }) {
     const [selectedSize, setSelectedSize] = useState("");
     const [selectedMaterial, setSelectedMaterial] = useState("");
     const [currentPrice, setCurrentPrice] = useState(0);
+    const [isCombinationAvailable, setIsCombinationAvailable] = useState(true);
 
     const handleAddToCart = () => {
+        if (!isCombinationAvailable || !product.inStock) return;
+        
         const selectedOptions = {};
         if (product.variantOptions?.diameters?.length > 0) {
             selectedOptions.diameter = selectedDiameter;
@@ -53,8 +56,6 @@ export default function SingleProductPage({ params }) {
             quantity, 
             selectedOptions
         );
-        
-        // Removed alert for silent addition
     };
 
     const handleWishlist = () => {
@@ -101,7 +102,13 @@ export default function SingleProductPage({ params }) {
 
             if (variantPrice) {
                 setCurrentPrice(variantPrice.price);
+                setIsCombinationAvailable(true);
+            } else {
+                setCurrentPrice(null);
+                setIsCombinationAvailable(false);
             }
+        } else {
+            setIsCombinationAvailable(true);
         }
     }, [selectedDiameter, selectedLength, selectedSize, selectedMaterial, product]);
 
@@ -263,19 +270,27 @@ export default function SingleProductPage({ params }) {
                             <div className="flex flex-col">
                                 <span className="text-xs font-medium text-muted-foreground">Price per {product.unit || "unit"}</span>
                                 <div className="flex items-center gap-3">
-                                    <span className="text-3xl font-bold text-foreground">₹{currentPrice}</span>
-                                    {onSale && (
-                                        <span className="text-lg text-muted-foreground line-through">₹{defaultPrice}</span>
+                                    {isCombinationAvailable ? (
+                                        <>
+                                            <span className="text-3xl font-bold text-foreground">₹{currentPrice}</span>
+                                            {onSale && (
+                                                <span className="text-lg text-muted-foreground line-through">₹{defaultPrice}</span>
+                                            )}
+                                        </>
+                                    ) : (
+                                        <span className="text-xl font-bold text-muted-foreground mt-1">Not Available</span>
                                     )}
                                 </div>
                             </div>
                             <span className={cn(
                                 "ml-auto text-xs font-semibold px-2.5 py-1 rounded-full",
                                 inStock
-                                    ? "bg-green-50 text-green-700 border border-green-200"
+                                    ? isCombinationAvailable 
+                                        ? "bg-green-50 text-green-700 border border-green-200" 
+                                        : "bg-orange-50 text-orange-700 border border-orange-200"
                                     : "bg-red-50 text-red-700 border border-red-200"
                             )}>
-                                {inStock ? "✓ In Stock" : "Out of Stock"}
+                                {!inStock ? "Out of Stock" : !isCombinationAvailable ? "Unavailable" : "✓ In Stock"}
                             </span>
                         </div>
 
@@ -375,11 +390,16 @@ export default function SingleProductPage({ params }) {
                         <div className="flex gap-3">
                             <Button
                                 onClick={handleAddToCart}
-                                className="flex-1 h-12 rounded-xl bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 shadow-sm hover:shadow transition-all"
-                                disabled={!inStock}
+                                className={cn(
+                                    "flex-1 h-12 rounded-xl text-primary-foreground font-semibold text-sm shadow-sm transition-all",
+                                    (!inStock || !isCombinationAvailable) 
+                                        ? "bg-muted text-muted-foreground pointer-events-none" 
+                                        : "bg-primary hover:bg-primary/90 hover:shadow"
+                                )}
+                                disabled={!inStock || !isCombinationAvailable}
                             >
                                 <ShoppingCart className="mr-2 size-4" />
-                                {inStock ? "Add to Cart" : "Out of Stock"}
+                                {!inStock ? "Out of Stock" : !isCombinationAvailable ? "Unavailable Combination" : "Add to Cart"}
                             </Button>
                             <Button
                                 variant="outline"
