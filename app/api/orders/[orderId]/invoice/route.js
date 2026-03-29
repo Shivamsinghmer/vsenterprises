@@ -32,13 +32,17 @@ export async function GET(req, { params }) {
   try {
     const { orderId } = await params;
     await connectDB();
-    const order = await Order.findById(orderId).lean();
+    const order = await Order.findById(orderId);
 
     if (!order || !order.invoiceData) {
       return new NextResponse("Invoice not found", { status: 404 });
     }
 
-    return new NextResponse(order.invoiceData, {
+    // Ensure MongoDB Binary wrapper is converted to a raw Node.js Buffer 
+    // depending on whether lean() was used or not
+    const pdfBuffer = Buffer.from(order.invoiceData.buffer || order.invoiceData);
+
+    return new NextResponse(pdfBuffer, {
       headers: {
         "Content-Type": order.invoiceMimeType || "application/pdf",
         "Content-Disposition": "inline"
