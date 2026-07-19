@@ -142,7 +142,6 @@ function ProductCard({ product }) {
     const [selectedSize, setSelectedSize] = useState(variantOptions?.sizes?.[0] || "");
     const [selectedMaterial, setSelectedMaterial] = useState(variantOptions?.materials?.[0] || "");
     const [currentPrice, setCurrentPrice] = useState(salePrice || defaultPrice);
-    const [isCombinationAvailable, setIsCombinationAvailable] = useState(true);
 
     useEffect(() => {
         if (isVariantProduct && pricingData) {
@@ -157,18 +156,16 @@ function ProductCard({ product }) {
 
             if (variantPrice) {
                 setCurrentPrice(variantPrice.price);
-                setIsCombinationAvailable(true);
             } else {
-                setCurrentPrice(null);
-                setIsCombinationAvailable(false);
+                setCurrentPrice(salePrice || defaultPrice);
             }
         } else {
-            setIsCombinationAvailable(true);
+            setCurrentPrice(salePrice || defaultPrice);
         }
-    }, [selectedDiameter, selectedLength, selectedSize, selectedMaterial, isVariantProduct, pricingData, variantOptions]);
+    }, [selectedDiameter, selectedLength, selectedSize, selectedMaterial, isVariantProduct, pricingData, variantOptions, salePrice, defaultPrice]);
 
     const handleAddToCart = () => {
-        if (!isCombinationAvailable || !product.inStock) return;
+        if (!product.inStock) return;
 
         const selectedOptions = {};
         if (isVariantProduct) {
@@ -223,10 +220,10 @@ function ProductCard({ product }) {
                 <button
                     aria-label="Add to cart"
                     onClick={handleAddToCart}
-                    disabled={!isCombinationAvailable}
+                    disabled={!product.inStock}
                     className={cn(
                         "size-8 rounded-lg bg-card text-foreground border border-border shadow-sm flex items-center justify-center transition-colors duration-200",
-                        isCombinationAvailable
+                        product.inStock
                             ? "hover:bg-primary hover:text-primary-foreground hover:border-primary"
                             : "opacity-40 pointer-events-none"
                     )}
@@ -326,15 +323,15 @@ function ProductCard({ product }) {
                     <Button
                         size="sm"
                         onClick={handleAddToCart}
-                        disabled={!isCombinationAvailable}
-                        aria-label={isCombinationAvailable ? "Add to cart" : "Unavailable combination"}
+                        disabled={!product.inStock}
+                        aria-label={product.inStock ? "Add to cart" : "Out of stock"}
                         className={cn(
                             "h-9 rounded-lg px-3 gap-1.5 text-xs font-bold shadow-sm transition-all active:scale-95",
-                            !isCombinationAvailable && "bg-muted text-muted-foreground pointer-events-none"
+                            !product.inStock && "bg-muted text-muted-foreground pointer-events-none"
                         )}
                     >
                         <ShoppingCart className="size-3.5" />
-                        {isCombinationAvailable ? "Add" : "Unavailable"}
+                        {product.inStock ? "Add" : "Out of Stock"}
                     </Button>
                 </div>
             </div>
